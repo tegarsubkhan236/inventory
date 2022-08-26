@@ -1,8 +1,7 @@
-import React from 'react';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import './assets/less/App.less';
-import Dashboard from "./pages/layout/Dashboard";
 import Login from "./pages/auth/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const App = () => (
     <Routes>
