@@ -1,5 +1,6 @@
 import {Layout, Menu, MenuProps} from "antd";
 import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import {
     AppstoreOutlined,
     RiseOutlined,
@@ -49,6 +50,15 @@ const items: MenuItem[] = [
 const rootSubmenuKeys = ['dashboard', 'user_management', 'inventory', 'transaction', 'sign_out'];
 
 const MySidebar = () => {
+    // let navigate = useNavigate();
+    // const onClick: MenuProps['onClick'] = e => {
+    //     if (e.key === 'dashboard'){
+    //         return e.key = '/'
+    //     }
+    //     navigate(e.key);
+    //     console.log(e)
+    // };
+
     const [openKeys, setOpenKeys] = useState(['dashboard']);
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
