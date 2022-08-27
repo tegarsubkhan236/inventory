@@ -50,14 +50,7 @@ const items: MenuItem[] = [
 const rootSubmenuKeys = ['dashboard', 'user_management', 'inventory', 'transaction', 'sign_out'];
 
 const MySidebar = () => {
-    // let navigate = useNavigate();
-    // const onClick: MenuProps['onClick'] = e => {
-    //     if (e.key === 'dashboard'){
-    //         return e.key = '/'
-    //     }
-    //     navigate(e.key);
-    //     console.log(e)
-    // };
+    let navigate = useNavigate();
 
     const [openKeys, setOpenKeys] = useState(['dashboard']);
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
@@ -78,6 +71,7 @@ const MySidebar = () => {
                 defaultOpenKeys={['dashboard']}
                 style={{height: '100%', borderRight: 0}}
                 items={items}
+                onClick={(e)=>navigate("/"+e.key, {replace : true})}
             />
         </Layout.Sider>
     )
