@@ -2,9 +2,7 @@ import MainLayout from "../../layout/MainLayout";
 
 const Role = () => {
     return (
-        <MainLayout content={
-            <h1>HALLO ROLE</h1>
-        }/>
+        <h1>HALLO ROLE</h1>
     )
 }
 

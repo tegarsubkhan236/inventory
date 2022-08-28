@@ -44,7 +44,7 @@ const items: MenuItem[] = [
     getItem('Transaction', 'transaction', <RiseOutlined />, [
         getItem('Pre Order', 'pre_order'),
     ]),
-    getItem('Sign Out', 'sign_out', <LogoutOutlined />),
+    getItem('Sign Out', 'login', <LogoutOutlined />),
 ];
 
 const rootSubmenuKeys = ['dashboard', 'user_management', 'inventory', 'transaction', 'sign_out'];

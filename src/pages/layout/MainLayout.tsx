@@ -1,24 +1,16 @@
-import {Breadcrumb, Layout} from 'antd';
+import {Layout} from 'antd';
 import "./MainLayout.less";
 import MySidebar from "../../components/sidebar/MySidebar";
 import MyHeader from "../../components/header/MyHeader";
+import {Outlet} from "react-router-dom";
 
-interface DashboardProps {
-    content : JSX.Element
-}
-
-const MainLayout = ({content} : DashboardProps) => {
+const MainLayout = () => {
     return (
         <Layout>
             <MyHeader/>
             <Layout>
                 <MySidebar/>
-                <Layout style={{padding: '0 24px 24px'}}>
-                    <Breadcrumb style={{margin: '16px 0'}}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb>
+                <Layout style={{padding: '0 24px 24px', margin: '16px 0'}}>
                     <Layout.Content
                         className="site-layout-background"
                         style={{
@@ -27,7 +19,7 @@ const MainLayout = ({content} : DashboardProps) => {
                             minHeight: '77vh',
                         }}
                     >
-                        {content}
+                        <Outlet/>
                     </Layout.Content>
                 </Layout>
             </Layout>
