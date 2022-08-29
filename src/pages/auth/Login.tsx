@@ -1,16 +1,23 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
-import {Button, Checkbox, Form, Input} from 'antd';
+import {Button, Form, Input} from 'antd';
+import {useNavigate} from 'react-router-dom'
 import "./login.less"
 import React from 'react';
-import {Link} from "react-router-dom";
+import {login} from "../../data/AuthData";
 
 interface MessageProps {
-    loginText? : string,
-    registerText? : string
+    loginText?: string,
+    registerText?: string
 }
-const Login = ({loginText = "LOGIN", registerText = "REGISTER"} : MessageProps) => {
+
+const Login = ({loginText = "LOGIN"}: MessageProps) => {
+    let navigate = useNavigate();
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        login(values).then(
+            () => {
+                navigate("/", { replace: true });
+            },
+        )
     };
 
     return (
@@ -33,12 +40,9 @@ const Login = ({loginText = "LOGIN", registerText = "REGISTER"} : MessageProps) 
                 />
             </Form.Item>
             <Form.Item>
-                <Link to="/">
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        {loginText}
-                    </Button>
-                </Link>
-                Or <a href="">{registerText}</a>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                    {loginText}
+                </Button>
             </Form.Item>
         </Form>
     );
