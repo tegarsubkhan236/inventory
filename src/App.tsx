@@ -4,7 +4,7 @@ import Login from "./pages/auth/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Role from "./pages/user_management/role/Role";
 import User from "./pages/user_management/user/user";
-import MainLayout from "./pages/layout/MainLayout";
+import MainLayout from "./components/layout/MainLayout";
 import NotFound from "./pages/error/NotFound";
 
 const App = () => (

@@ -1,4 +1,4 @@
-import MainLayout from "../../layout/MainLayout";
+import MainLayout from "../../../components/layout/MainLayout";
 
 const Role = () => {
     return (
