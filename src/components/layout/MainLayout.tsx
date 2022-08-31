@@ -8,7 +8,7 @@ const MainLayout = () => {
     return (
         <Layout>
             <MyHeader/>
-            <Layout style={{ marginTop: 64 }}>
+            <Layout style={{marginTop: 64}}>
                 <MySidebar/>
                 <Layout style={{padding: '0 24px 24px', margin: '20px 0'}}>
                     <Layout.Content

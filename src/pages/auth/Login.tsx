@@ -2,20 +2,17 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import {useNavigate} from 'react-router-dom'
 import "./login.less"
-import React from 'react';
-import {login} from "../../data/AuthData";
+import {login} from "../../service/AuthService";
 
-interface MessageProps {
-    loginText?: string,
-    registerText?: string
-}
+const Login = () => {
 
-const Login = ({loginText = "LOGIN"}: MessageProps) => {
     let navigate = useNavigate();
-    const onFinish = (values: any) => {
-        login(values).then(
-            () => {
-                navigate("/", { replace: true });
+
+    const onFinish = (values: { username: string; password: string; }) => {
+        let username = values.username
+        let password = values.password
+        login({username, password}).then(() => {
+                navigate("/", {replace: true});
             },
         )
     };
@@ -41,7 +38,7 @@ const Login = ({loginText = "LOGIN"}: MessageProps) => {
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                    {loginText}
+                    LOGIN
                 </Button>
             </Form.Item>
         </Form>

@@ -1,16 +1,12 @@
 import {UserOutlined} from '@ant-design/icons';
 import type {MenuProps} from 'antd';
-import {Avatar, Dropdown, Image, Layout, Menu, message, Space} from "antd";
-import React from 'react';
+import {Avatar, Dropdown, Image, Layout, Menu, Space} from "antd";
 import "./header.less";
-import {logout} from "../../data/AuthData";
+import {logout} from "../../service/AuthService";
 
 const handleMenuClick: MenuProps['onClick'] = e => {
-    switch (e.key) {
-        case "1" :
-            logout()
-            break;
-        default : message.info('Click on menu item.');
+    if (e.key === "1"){
+        logout()
     }
 };
 
@@ -21,16 +17,6 @@ const menu = (
             {
                 label: 'Logout',
                 key: '1',
-                icon: <UserOutlined/>,
-            },
-            {
-                label: '2nd menu item',
-                key: '2',
-                icon: <UserOutlined/>,
-            },
-            {
-                label: '3rd menu item',
-                key: '3',
                 icon: <UserOutlined/>,
             },
         ]}

@@ -15,14 +15,14 @@ const MySidebar = () => {
         }
     };
     return (
-        <Layout.Sider width={200} className="site-layout-background">
+        <Layout.Sider width={200} className="site-layout-background" style={{backgroundColor: "#f0f2f5"}}>
             <Menu
                 mode="inline"
                 openKeys={openKeys}
                 onOpenChange={onOpenChange}
                 defaultSelectedKeys={['dashboard']}
                 defaultOpenKeys={['dashboard']}
-                style={{height: '100%', borderRight: 0}}
+                style={{ minWidth: 0, flex: "auto" }}
                 items={items}
                 onClick={(e)=>navigate("/"+e.key, {replace : true})}
             />
