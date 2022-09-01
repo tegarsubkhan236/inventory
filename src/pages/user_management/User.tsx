@@ -1,57 +1,8 @@
-import {Button, message, PageHeader, Table, Tag} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
+import {Button, message, PageHeader, Table} from 'antd';
+import type {TablePaginationConfig} from 'antd/es/table';
 import React, {useEffect, useState} from 'react';
 import {GetAllUser} from "../../service/UserService";
-
-interface DataType {
-    name: string;
-    sex: string;
-    email: string;
-    role_id: {
-        id: number,
-        name: string
-    }
-    id: number;
-}
-
-interface Params {
-    pagination?: TablePaginationConfig;
-    total?: number;
-}
-
-const columns: ColumnsType<DataType> = [
-    {
-        title: '#',
-        dataIndex: 'id',
-        width: '20%',
-    },
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        width: '20%',
-    },
-    {
-        title: 'Gender',
-        dataIndex: 'sex',
-        width: '20%',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-    },
-    {
-        title: 'Roles',
-        key: 'role_id',
-        dataIndex: 'role_id',
-        render: (_, {role_id}) => (
-            <>
-                <Tag color={"green"} key={role_id.id}>
-                    {role_id.name?.toUpperCase()}
-                </Tag>
-            </>
-        ),
-    },
-];
+import {UserColumns, UserParams} from "./userData";
 
 const User = () => {
     const [data, setData] = useState();
@@ -62,7 +13,7 @@ const User = () => {
         pageSize: 10,
     });
 
-    const fetchData = (params: Params) => {
+    const fetchData = (params: UserParams) => {
         setLoading(true);
         GetAllUser().then(res => {
             setData(res)
@@ -84,12 +35,12 @@ const User = () => {
         });
     };
 
-    const start = () => {
+    const resetSelect = () => {
         setLoading(true);
         setTimeout(() => {
             setSelectedRowKeys([]);
             setLoading(false);
-        }, 1000);
+        }, 500);
     };
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -104,7 +55,7 @@ const User = () => {
     const hasSelected = selectedRowKeys.length > 0;
 
     const showSelectedRow = () => {
-        selectedRowKeys.map((b,a) => {
+        selectedRowKeys.map((b,_) => {
             return (
                 message.info(`Selected Row ID ${b}`)
             )
@@ -116,21 +67,16 @@ const User = () => {
             title="User"
             subTitle="User Management"
             extra={[
+                <Button key="add" type="default">Add</Button>,
                 <Button key="delete" danger disabled={!hasSelected} onClick={showSelectedRow}>Delete</Button>,
-                <Button key="edit" type="default" disabled={!hasSelected} onClick={showSelectedRow}>Edit</Button>,
-                <Button key="add" type="default">
-                    Add
-                </Button>,
-                <Button type="default" onClick={start} disabled={!hasSelected} loading={loading}>
-                    Reload
-                </Button>,
+                <Button type="default" onClick={resetSelect} disabled={!hasSelected} loading={loading}>Reload</Button>,
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
             ]}
         >
             <Table
-                columns={columns}
+                columns={UserColumns}
                 rowKey={record => record.id}
                 rowSelection={rowSelection}
                 dataSource={data}

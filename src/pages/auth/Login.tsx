@@ -3,15 +3,18 @@ import {Button, Form, Input} from 'antd';
 import {useNavigate} from 'react-router-dom'
 import "./login.less"
 import {login} from "../../service/AuthService";
+import {useState} from "react";
 
 const Login = () => {
-
+    const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
 
     const onFinish = (values: { username: string; password: string; }) => {
         let username = values.username
         let password = values.password
+        setLoading(true);
         login({username, password}).then(() => {
+                setLoading(false);
                 navigate("/", {replace: true});
             },
         )
@@ -37,7 +40,7 @@ const Login = () => {
                 />
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
+                <Button type="primary" htmlType="submit" className="login-form-button" loading={loading}>
                     LOGIN
                 </Button>
             </Form.Item>

@@ -7,6 +7,7 @@ import User from "./pages/user_management/User";
 import Login from "./pages/auth/Login";
 import NotFound from "./pages/error/NotFound";
 import './assets/less/App.less';
+import ProductCategory from "./pages/inventory/ProductCategory";
 
 function App() {
     const CurrUser = getCurrentUser();
@@ -17,8 +18,14 @@ function App() {
             children: [
                 {path: "/", element: CurrUser != null ? <Navigate to="dashboard"/> : <Navigate to="login"/>},
                 {path: "dashboard", element: <Dashboard/>},
-                {path: "role", element: <Role/>},
-                {path: "user", element: <User/>},
+                {path: "user_management", children: [
+                    {path: "role", element: <Role/>},
+                    {path: "user", element: <User/>},
+                ]},
+                {path: "inventory", children: [
+                    {path: "product_category", element: <ProductCategory/>},
+                ]},
+
                 {path: "*", element: <Navigate to="page-not-found"/>},
                 {path: "page-not-found", element: <NotFound/>},
             ],
