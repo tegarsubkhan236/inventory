@@ -3,6 +3,7 @@ import type {TablePaginationConfig} from 'antd/es/table';
 import React, {useEffect, useState} from 'react';
 import {GetAllUser} from "../../service/UserService";
 import {UserColumns, UserParams} from "./userData";
+import {selectableCell} from "../../utils/selectableCell";
 
 const User = () => {
     const [data, setData] = useState();
@@ -35,27 +36,12 @@ const User = () => {
         });
     };
 
-    const resetSelect = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setSelectedRowKeys([]);
-            setLoading(false);
-        }, 500);
-    };
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
-
-    const hasSelected = selectedRowKeys.length > 0;
-
-    const showSelectedRow = () => {
-        selectedRowKeys.map((b,_) => {
+    const {rowSelection, hasSelected, resetSelect} = selectableCell(
+        {setLoading, selectedRowKeys, setSelectedRowKeys}
+    )
+    // Delete Function
+    const DeleteData = () => {
+        selectedRowKeys.map((b, _) => {
             return (
                 message.info(`Selected Row ID ${b}`)
             )
@@ -68,7 +54,7 @@ const User = () => {
             subTitle="User Management"
             extra={[
                 <Button key="add" type="default">Add</Button>,
-                <Button key="delete" danger disabled={!hasSelected} onClick={showSelectedRow}>Delete</Button>,
+                <Button key="delete" danger disabled={!hasSelected} onClick={DeleteData}>Delete</Button>,
                 <Button type="default" onClick={resetSelect} disabled={!hasSelected} loading={loading}>Reload</Button>,
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
