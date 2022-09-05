@@ -1,7 +1,7 @@
 import {Layout, Menu, MenuProps} from "antd";
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import {items, rootSubmenuKeys} from "../../utils/routes";
+import {items, rootSubmenuKeys} from "../../routes/routes";
 
 const MySidebar = () => {
     let navigate = useNavigate();

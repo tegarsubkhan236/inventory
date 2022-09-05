@@ -1,6 +1,7 @@
 import {Button, Form, message, PageHeader, Table} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {
+    BatchDeleteProductCategory,
     CreateProductCategory,
     GetAllProductCategory,
     UpdateProductCategory,
@@ -9,16 +10,17 @@ import {EditingColumnProductCategory, ProductCategoryDataType} from "./productCa
 import {EditableCell} from "../../utils/editableCell";
 import {selectableCell} from "../../utils/selectableCell";
 import ProductCategoryForm from "./ProductCategoryForm";
-import {EditableContext} from "../../context/EditableContext";
 
 const ProductCategory = () => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [data, setData] = useState<ProductCategoryDataType[]>([]);
+    const [refreshKey, setRefreshKey] = useState<number>(0);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [editingKey, setEditingKey] = useState<React.Key>('');
-    const [visible, setVisible] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [visible, setVisible] = useState<boolean>(false);
+    const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+    const PageKey = "ProductCategory";
 
     // Update Function
     const UpdateData = async (id: React.Key) => {
@@ -30,6 +32,7 @@ const ProductCategory = () => {
                 message.info(e.data)
             })
             setEditingKey('');
+            setRefreshKey(oldKey => oldKey + 1)
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
@@ -46,19 +49,25 @@ const ProductCategory = () => {
                 setConfirmLoading(false)
                 message.info(e.data)
             })
+            setRefreshKey(oldKey => oldKey +1)
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
     };
 
     // Delete Function
-    const DeleteData = () => {
+    const DeleteData = async () => {
         console.log(selectedRowKeys)
-        selectedRowKeys.map((b, _) => {
-            return (
-                message.info(`Selected Row ID ${b}`)
-            )
-        });
+        try {
+            setLoading(true)
+            await BatchDeleteProductCategory(selectedRowKeys).then(e => {
+                setLoading(false)
+            })
+            setSelectedRowKeys([]);
+            setRefreshKey(oldKey => oldKey +1)
+        } catch (errInfo) {
+            console.log('Validate Failed:', errInfo);
+        }
     }
 
     const {rowSelection, hasSelected, resetSelect} = selectableCell(
@@ -71,14 +80,9 @@ const ProductCategory = () => {
     // Get Function
     useEffect(() => {
         GetAllProductCategory().then(res => {
-            // const results = res.map((row: { name: string; id: any; }) => ({
-            //     key : row.id,
-            //     id : row.id,
-            //     name : row.name
-            // }))
             setData(res)
         })
-    }, [editingKey, confirmLoading])
+    }, [refreshKey])
 
     return (
         <>
@@ -86,17 +90,16 @@ const ProductCategory = () => {
                 title="Product Category"
                 subTitle="Inventory"
                 extra={[
-                    <Button key="add" type="default" onClick={() => setVisible(true)}>Add</Button>,
-                    <Button key="delete" danger disabled={!hasSelected} onClick={DeleteData}>Delete</Button>,
-                    <Button type="default" onClick={resetSelect} disabled={!hasSelected}
+                    <Button key={`${PageKey}Add`}  type="default" onClick={() => setVisible(true)}>Add</Button>,
+                    <Button key={`${PageKey}Delete`}  danger disabled={!hasSelected} onClick={DeleteData}>Delete</Button>,
+                    <Button key={`${PageKey}Reload`} type="default" onClick={resetSelect} disabled={!hasSelected}
                             loading={loading}>Reload</Button>,
-                    <span style={{marginLeft: 8}}>
+                    <span key={`${PageKey}Span`} style={{marginLeft: 8}}>
                       {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                     </span>
                 ]}
             >
                 <Form form={form} component={false}>
-                    <EditableContext.Provider value={form}>
                     <Table
                         components={{
                             body: {
@@ -113,7 +116,6 @@ const ProductCategory = () => {
                             onChange: () => setEditingKey(''),
                         }}
                     />
-                    </EditableContext.Provider>
                 </Form>
             </PageHeader>
             {visible

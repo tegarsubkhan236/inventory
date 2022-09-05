@@ -1,7 +1,7 @@
 import React from "react";
 import {ColumnsType, TablePaginationConfig} from "antd/es/table";
 
-interface RoleDataType {
+export interface RoleDataType {
     id: React.Key
     name: string;
 }

@@ -2,7 +2,7 @@ import React from "react";
 import {ColumnsType, TablePaginationConfig} from "antd/es/table";
 import {Tag} from "antd";
 
-interface UserDataType {
+export interface UserDataType {
     id: React.Key;
     name: string;
     sex: string;
@@ -46,7 +46,7 @@ export const UserColumns: ColumnsType<UserDataType> = [
         width: '20%',
         render: (_, {role_id}) => (
             <>
-                <Tag color={"green"} key={role_id.id}>
+                <Tag color={"green"} key={role_id.id.toString()}>
                     {role_id.name?.toUpperCase()}
                 </Tag>
             </>

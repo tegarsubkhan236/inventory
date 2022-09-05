@@ -26,3 +26,9 @@ export const UpdateProductCategory = async (id: React.Key, item : Item) => {
         return res.data
     });
 };
+
+export const BatchDeleteProductCategory = async (id: React.Key[]) => {
+    return await axiosClient.post("/v1/api/product_category/batch_delete", {
+        id : id
+    })
+};
