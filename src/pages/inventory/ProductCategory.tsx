@@ -6,7 +6,7 @@ import {
     GetAllProductCategory,
     UpdateProductCategory,
 } from "../../service/ProductCategoryService";
-import {EditingColumnProductCategory, ProductCategoryDataType} from "./productCategoryData";
+import {EditingColumnProductCategory, ProductCategoryDataType} from "../../data/productCategoryData";
 import {EditableCell} from "../../utils/editableCell";
 import {selectableCell} from "../../utils/selectableCell";
 import ProductCategoryForm from "./ProductCategoryForm";

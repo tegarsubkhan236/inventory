@@ -1,4 +1,6 @@
+import {TablePaginationConfig} from "antd/es/table";
+
 export interface ApiPagination {
-    Page : number
-    PerPage : number
+    pagination?: TablePaginationConfig;
+    total?: number;
 }

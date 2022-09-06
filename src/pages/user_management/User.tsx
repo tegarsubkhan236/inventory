@@ -2,7 +2,7 @@ import {Button, message, PageHeader, Table} from 'antd';
 import type {TablePaginationConfig} from 'antd/es/table';
 import React, {useEffect, useState} from 'react';
 import {GetAllUser} from "../../service/UserService";
-import {UserColumns, UserDataType, UserParams} from "./userData";
+import {UserColumns, UserDataType, UserParams} from "../../data/userData";
 import {selectableCell} from "../../utils/selectableCell";
 
 const User = () => {

@@ -32,6 +32,9 @@ export const EditingColumnProductCategory = ({
 
     const columns = [
         {
+            title: '#', dataIndex: 'id', editable: false, key: 'id',width: '5%'
+        },
+        {
             title: 'name', dataIndex: 'name', editable: true, key: 'name'
         },
         {
