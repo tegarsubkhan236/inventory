@@ -1,4 +1,4 @@
-import {Button, message, PageHeader, Space, Table, Tooltip} from 'antd';
+import {Button, PageHeader, Space, Table, Tooltip} from 'antd';
 import type {TablePaginationConfig} from 'antd/es/table';
 import React, {useEffect, useState} from 'react';
 import {BatchDeleteData, DeleteData, FetchData, RoleDataType, SaveData, UpdateData} from "../../data/roleData";
@@ -10,6 +10,7 @@ import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 
 const Role = () => {
     const [data, setData] = useState<RoleDataType[]>([]);
+    const [item, setItem] = useState<RoleDataType|undefined>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [selectedRowKey, setSelectedRowKey] = useState<React.Key|undefined>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -25,7 +26,7 @@ const Role = () => {
     const fetchData = (pagination : ApiPagination) => FetchData({setLoading, setData, setPagination, pagination})
     const saveData = (values : RoleDataType) => SaveData({setLoading, setConfirmLoading, setVisible, setRefreshKey, values})
     const deleteData = (id : React.Key) => DeleteData({id, setLoading, setSelectedRowKeys, setRefreshKey})
-    const updateData = (id : React.Key, values : RoleDataType) => UpdateData({id,setLoading,setConfirmLoading,setVisible,setRefreshKey,values})
+    const updateData = (values : RoleDataType, id : React.Key) => UpdateData({id,setLoading,setConfirmLoading,setVisible,setRefreshKey,values})
     const batchDeleteData = () => BatchDeleteData({setLoading,selectedRowKeys,setSelectedRowKeys,setRefreshKey})
     const RoleColumns: ColumnsType<RoleDataType> = [
         {
@@ -45,8 +46,8 @@ const Role = () => {
                     <Tooltip title={`Edit`} trigger={"hover"}>
                         <Button onClick={() => {
                             setVisible(true)
-                            // PR
                             setSelectedRowKey(record.id)
+                            setItem(record)
                         }} type="dashed" shape="circle" icon={<EditOutlined/>}/>
                     </Tooltip>
                     <Tooltip title={`Delete`} trigger={"hover"}>
@@ -94,11 +95,15 @@ const Role = () => {
             {(visible) || (visible && selectedRowKey)
                 ? <RoleForm
                     id={selectedRowKey}
+                    setId={setSelectedRowKey}
+                    item={item}
+                    setItem={setItem}
                     title={PageTitle}
                     visible={visible}
                     setVisible={setVisible}
                     confirmLoading={confirmLoading}
-                    handleOk={saveData}/>
+                    handleSave={saveData}
+                    handleUpdate={updateData}/>
                 : ''
             }
         </>

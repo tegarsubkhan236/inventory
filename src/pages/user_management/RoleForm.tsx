@@ -6,18 +6,36 @@ type Dispatcher<S> = Dispatch<SetStateAction<S>>
 
 interface RoleFormProps {
     id : React.Key|undefined
+    setId : Dispatcher<React.Key|undefined>
+    item : RoleDataType|undefined
+    setItem: Dispatcher<RoleDataType|undefined>
     title: string,
     visible: boolean,
     setVisible: Dispatcher<boolean>,
     confirmLoading: boolean,
-    handleOk: (values: RoleDataType) => void,
+    handleSave: (values: RoleDataType) => void,
+    handleUpdate: (values: RoleDataType, id : React.Key) => void,
 }
 
-const RoleForm = ({id, title, visible, setVisible, confirmLoading, handleOk}: RoleFormProps) => {
+const RoleForm = ({id, setId, item, setItem, title, visible, setVisible, confirmLoading, handleSave, handleUpdate}: RoleFormProps) => {
 
+    const onFinish = async (values : RoleDataType) => {
+      if (id !== undefined){
+          await handleUpdate(values, id)
+          setId(undefined)
+          setItem(undefined)
+      } else {
+          await handleSave(values)
+      }
+    }
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
+    const onCancel = () => {
+        setVisible(false)
+        setId(undefined)
+        setItem(undefined)
+    }
 
     return (
         <Modal
@@ -25,12 +43,11 @@ const RoleForm = ({id, title, visible, setVisible, confirmLoading, handleOk}: Ro
             visible={visible}
             okButtonProps={{form: 'basic', htmlType: 'submit'}}
             confirmLoading={confirmLoading}
-            onCancel={() => setVisible(false)}
+            onCancel={onCancel}
         >
-            <Form name="basic" labelCol={{span: 4}} wrapperCol={{span: 20}} onFinish={handleOk}
-                  onFinishFailed={onFinishFailed}>
-                <Form.Item label="Name" name="name" rules={[
-                    {required: true, message: 'Please input your username!'}]
+            <Form name="basic" labelCol={{span: 4}} wrapperCol={{span: 20}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                <Form.Item label="Name" name="name" initialValue={item !== undefined ? item.name : ''} rules={[
+                    {required: true, message: "Don't leave this empty!"}]
                 }>
                     <Input/>
                 </Form.Item>

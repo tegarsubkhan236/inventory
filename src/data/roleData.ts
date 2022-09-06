@@ -72,6 +72,7 @@ export const DeleteData = async ({id, setLoading, setSelectedRowKeys, setRefresh
         } catch (errInfo) {
             setLoading(false)
             console.log('Validate Failed:', errInfo);
+            message.info(`${values.name} failed to delete`)
         }
     }
 }
@@ -82,11 +83,11 @@ export const UpdateData = async ({id, setLoading, setConfirmLoading, setVisible,
         try {
             setConfirmLoading(true)
             await UpdateRole(id,values)
-                .then(e => {
+                .then(() => {
                     setLoading(false);
                     setVisible(false)
                     setConfirmLoading(false)
-                    message.info(e.data)
+                    message.info(`has been updated to ${values.name}`)
                 }).catch(() => setLoading(false))
             setRefreshKey(oldKey => oldKey + 1)
         } catch (errInfo) {
