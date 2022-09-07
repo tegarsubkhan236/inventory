@@ -1,4 +1,4 @@
-import {Form, Input, Modal} from 'antd';
+import {Form, Input, message, Modal} from 'antd';
 import React, {Dispatch, SetStateAction} from "react";
 import {RoleDataType} from "../../data/roleData";
 
@@ -28,13 +28,15 @@ const RoleForm = ({id, setId, item, setItem, title, visible, setVisible, confirm
           await handleSave(values)
       }
     }
-    const onFinishFailed = (errorInfo: any) => {
+    const onFinishFailed = async (errorInfo: any) => {
         console.log('Failed:', errorInfo);
+        message.error('The Operation failed to execute')
     };
-    const onCancel = () => {
+    const onCancel = async () => {
         setVisible(false)
         setId(undefined)
         setItem(undefined)
+        message.warning('You cancel the operation')
     }
 
     return (

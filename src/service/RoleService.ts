@@ -32,6 +32,8 @@ export const DeleteSingleRole = async (id: React.Key) => {
     return await axiosClient.delete("/v1/api/role/delete/"+id)
 };
 
-export const BatchDeleteSingleRole = async (id: React.Key[]) => {
-    return await axiosClient.delete("/v1/api/role/delete/"+id)
+export const BatchDeleteRole = async (id: React.Key[]) => {
+    return await axiosClient.post("/v1/api/role/batch_delete", {
+        id : id
+    })
 };

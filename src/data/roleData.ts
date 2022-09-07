@@ -2,7 +2,13 @@ import React, {Dispatch, SetStateAction} from "react";
 import {TablePaginationConfig} from "antd/es/table";
 import {message} from "antd";
 import {ApiPagination} from "../utils/pagination";
-import {BatchDeleteSingleRole, CreateRole, DeleteSingleRole, GetAllRole, UpdateRole} from "../service/RoleService";
+import {
+    BatchDeleteRole,
+    CreateRole,
+    DeleteSingleRole,
+    GetAllRole,
+    UpdateRole
+} from "../service/RoleService";
 
 type Dispatcher<S> = Dispatch<SetStateAction<S>>
 
@@ -64,15 +70,13 @@ export const DeleteData = async ({id, setLoading, setSelectedRowKeys, setRefresh
     if (id && setLoading && setSelectedRowKeys && setRefreshKey) {
         try {
             setLoading(true)
-            await DeleteSingleRole(id).then(() => {
-                setLoading(false)
-            })
+            await DeleteSingleRole(id).then(() => setLoading(false))
             setSelectedRowKeys([]);
             setRefreshKey(oldKey => oldKey + 1)
         } catch (errInfo) {
             setLoading(false)
             console.log('Validate Failed:', errInfo);
-            message.info(`${values.name} failed to delete`)
+            message.warning('You cancel the operation')
         }
     }
 }
@@ -101,7 +105,13 @@ export const UpdateData = async ({id, setLoading, setConfirmLoading, setVisible,
 export const BatchDeleteData = async ({setLoading, selectedRowKeys, setSelectedRowKeys, setRefreshKey}: RoleState) => {
     if (setLoading && setSelectedRowKeys && setRefreshKey && selectedRowKeys) {
         setLoading(true)
-        await BatchDeleteSingleRole(selectedRowKeys).then(() => setLoading(false)).catch(() => setLoading(false))
+        await BatchDeleteRole(selectedRowKeys).then(() => {
+            setLoading(false)
+            message.info(`Data has been deleted !`)
+        }).catch(() => {
+            setLoading(false)
+            message.warning('You cancel the operation')
+        })
         setSelectedRowKeys([]);
         setRefreshKey(oldKey => oldKey +1)
     }
