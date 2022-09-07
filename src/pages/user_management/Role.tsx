@@ -23,7 +23,12 @@ const Role = () => {
     const PageSubTitle = "User Management";
     const PageKey = "Role";
 
-    const fetchData = (pagination: ApiPagination) => FetchData({setLoading, setData, setPagination, pagination})
+    const fetchData = (pagination: ApiPagination) => FetchData({
+        setLoading,
+        setData,
+        setPagination,
+        pagination
+    })
     const saveData = (values: RoleDataType) => SaveData({
         setLoading,
         setConfirmLoading,
@@ -31,7 +36,12 @@ const Role = () => {
         setRefreshKey,
         values
     })
-    const deleteData = (id: React.Key) => DeleteData({id, setLoading, setSelectedRowKeys, setRefreshKey})
+    const deleteData = (id: React.Key) => DeleteData({
+        id,
+        setLoading,
+        setSelectedRowKeys,
+        setRefreshKey
+    })
     const updateData = (values: RoleDataType, id: React.Key) => UpdateData({
         id,
         setLoading,
@@ -40,7 +50,12 @@ const Role = () => {
         setRefreshKey,
         values
     })
-    const batchDeleteData = () => BatchDeleteData({setLoading, selectedRowKeys, setSelectedRowKeys, setRefreshKey})
+    const batchDeleteData = () => BatchDeleteData({
+        setLoading,
+        selectedRowKeys,
+        setSelectedRowKeys,
+        setRefreshKey
+    })
     const RoleColumns: ColumnsType<RoleDataType> = [
         {
             title: '#',

@@ -57,7 +57,6 @@ const ProductCategory = () => {
 
     // Delete Function
     const DeleteData = async () => {
-        console.log(selectedRowKeys)
         try {
             setLoading(true)
             await BatchDeleteProductCategory(selectedRowKeys).then(e => {
